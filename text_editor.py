@@ -1,6 +1,8 @@
 import os
 import keyboard
 import string
+import time
+import threading
 
 # This creates a tuple of 'abcdef...XYZ...0123...'
 allowed_chars = tuple(string.ascii_letters + string.digits + string.punctuation + " ")
@@ -14,9 +16,25 @@ def display_text(txt):
     note1 += txt
     print(note1 + "|" + note2)
     
-while True:
+def blink():
+    while True:
+        os.system('cls')
+        print(note1 + "|" + note2)  
+        time.sleep(0.5)  
+        os.system('cls')
+        print(note1 + " " + note2)
+        time.sleep(0.5)
 
+# 1. Create the thread
+timer_thread = threading.Thread(target=blink, daemon=False)
+
+# 2. Start the thread
+timer_thread.start()
+
+while True:
+    
     event = keyboard.read_event()
+    
 
     if event.event_type == keyboard.KEY_DOWN:
         if event.name in allowed_chars:
@@ -45,6 +63,7 @@ while True:
                 note1 += note2[0]
                 note2 = note2[1:]
                 display_text("")
+            
 
             
             
