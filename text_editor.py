@@ -26,44 +26,47 @@ def blink():
         time.sleep(0.5)
 
 # 1. Create the thread
-timer_thread = threading.Thread(target=blink, daemon=False)
+# timer_thread = threading.Thread(target=blink, daemon=False)
 
-# 2. Start the thread
-timer_thread.start()
+# # 2. Start the thread
+# timer_thread.start()
 
 while True:
-    
-    event = keyboard.read_event()
-    
+    if len(note1 + "|" + note2)/10 == len(note1 + "|" + note2)//10 :
+        note2 += "/n"
+    while True:
+        event = keyboard.read_event()
 
-    if event.event_type == keyboard.KEY_DOWN:
-        if event.name in allowed_chars:
-            
-            display_text(event.name)
-            
-        elif event.name == "space":
-            
-            display_text(" ")
-            
-        elif event.name == "backspace":
-            
-            note1 = note1[:-1]
-            display_text("")
-            
-        elif event.name == "left":
-            if note1 != "":
-                
-                note2 = note1[-1] + note2
+
+        if event.event_type == keyboard.KEY_DOWN:
+            if event.name in allowed_chars:
+
+                display_text(event.name)
+
+            elif event.name == "space":
+
+                display_text(" ")
+
+            elif event.name == "backspace":
+
                 note1 = note1[:-1]
                 display_text("")
+
+            elif event.name == "left":
+                if note1 != "":
+
+                    note2 = note1[-1] + note2
+                    note1 = note1[:-1]
+                    display_text("")
+
+            elif event.name == "right":
+                if note2 != "":
+
+                    note1 += note2[0]
+                    note2 = note2[1:]
+                    display_text("")
                 
-        elif event.name == "right":
-            if note2 != "":
-                
-                note1 += note2[0]
-                note2 = note2[1:]
-                display_text("")
-            
+
 
             
             
